@@ -1,0 +1,10 @@
+C:\Users\5\Desktop\зубрильня\proga\C#\saper\saper\bin\Debug\saper.exe.config
+C:\Users\5\Desktop\зубрильня\proga\C#\saper\saper\bin\Debug\saper.exe
+C:\Users\5\Desktop\зубрильня\proga\C#\saper\saper\bin\Debug\saper.pdb
+C:\Users\5\Desktop\зубрильня\proga\C#\saper\saper\obj\Debug\saper.csprojAssemblyReference.cache
+C:\Users\5\Desktop\зубрильня\proga\C#\saper\saper\obj\Debug\saper.Properties.Resources.resources
+C:\Users\5\Desktop\зубрильня\proga\C#\saper\saper\obj\Debug\saper.csproj.GenerateResource.cache
+C:\Users\5\Desktop\зубрильня\proga\C#\saper\saper\obj\Debug\saper.csproj.CoreCompileInputs.cache
+C:\Users\5\Desktop\зубрильня\proga\C#\saper\saper\obj\Debug\saper.exe
+C:\Users\5\Desktop\зубрильня\proga\C#\saper\saper\obj\Debug\saper.pdb
+C:\Users\5\Desktop\зубрильня\proga\C#\saper\saper\obj\Debug\saper.Form1.resources

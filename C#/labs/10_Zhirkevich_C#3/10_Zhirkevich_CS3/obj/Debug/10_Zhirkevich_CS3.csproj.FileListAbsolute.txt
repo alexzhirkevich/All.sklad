@@ -1,0 +1,20 @@
+E:\VS проекты\10_Zhirkevich_CS3\10_Zhirkevich_CS3\obj\Debug\10_Zhirkevich_CS3.csprojAssemblyReference.cache
+E:\VS проекты\10_Zhirkevich_CS3\10_Zhirkevich_CS3\obj\Debug\_10_Zhirkevich_CS3.Form1.resources
+E:\VS проекты\10_Zhirkevich_CS3\10_Zhirkevich_CS3\obj\Debug\_10_Zhirkevich_CS3.Properties.Resources.resources
+E:\VS проекты\10_Zhirkevich_CS3\10_Zhirkevich_CS3\obj\Debug\10_Zhirkevich_CS3.csproj.GenerateResource.cache
+E:\VS проекты\10_Zhirkevich_CS3\10_Zhirkevich_CS3\obj\Debug\10_Zhirkevich_CS3.csproj.CoreCompileInputs.cache
+E:\VS проекты\10_Zhirkevich_CS3\10_Zhirkevich_CS3\bin\Debug\10_Zhirkevich_CS3.exe.config
+E:\VS проекты\10_Zhirkevich_CS3\10_Zhirkevich_CS3\bin\Debug\10_Zhirkevich_CS3.exe
+E:\VS проекты\10_Zhirkevich_CS3\10_Zhirkevich_CS3\bin\Debug\10_Zhirkevich_CS3.pdb
+E:\VS проекты\10_Zhirkevich_CS3\10_Zhirkevich_CS3\obj\Debug\10_Zhirkevich_CS3.exe
+E:\VS проекты\10_Zhirkevich_CS3\10_Zhirkevich_CS3\obj\Debug\10_Zhirkevich_CS3.pdb
+D:\VSprojects\C#\10_Zhirkevich_C#3\10_Zhirkevich_CS3\bin\Debug\10_Zhirkevich_CS3.exe.config
+D:\VSprojects\C#\10_Zhirkevich_C#3\10_Zhirkevich_CS3\bin\Debug\10_Zhirkevich_CS3.exe
+D:\VSprojects\C#\10_Zhirkevich_C#3\10_Zhirkevich_CS3\bin\Debug\10_Zhirkevich_CS3.pdb
+D:\VSprojects\C#\10_Zhirkevich_C#3\10_Zhirkevich_CS3\obj\Debug\10_Zhirkevich_CS3.csprojAssemblyReference.cache
+D:\VSprojects\C#\10_Zhirkevich_C#3\10_Zhirkevich_CS3\obj\Debug\_10_Zhirkevich_CS3.Form1.resources
+D:\VSprojects\C#\10_Zhirkevich_C#3\10_Zhirkevich_CS3\obj\Debug\_10_Zhirkevich_CS3.Properties.Resources.resources
+D:\VSprojects\C#\10_Zhirkevich_C#3\10_Zhirkevich_CS3\obj\Debug\10_Zhirkevich_CS3.csproj.GenerateResource.cache
+D:\VSprojects\C#\10_Zhirkevich_C#3\10_Zhirkevich_CS3\obj\Debug\10_Zhirkevich_CS3.csproj.CoreCompileInputs.cache
+D:\VSprojects\C#\10_Zhirkevich_C#3\10_Zhirkevich_CS3\obj\Debug\10_Zhirkevich_CS3.exe
+D:\VSprojects\C#\10_Zhirkevich_C#3\10_Zhirkevich_CS3\obj\Debug\10_Zhirkevich_CS3.pdb

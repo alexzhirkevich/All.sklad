@@ -1,0 +1,10 @@
+C:\Users\5\Desktop\зубрильня\proga\C#\sea battle\sea battle\bin\Debug\sea battle.exe.config
+C:\Users\5\Desktop\зубрильня\proga\C#\sea battle\sea battle\bin\Debug\sea battle.exe
+C:\Users\5\Desktop\зубрильня\proga\C#\sea battle\sea battle\bin\Debug\sea battle.pdb
+C:\Users\5\Desktop\зубрильня\proga\C#\sea battle\sea battle\obj\Debug\sea battle.csprojAssemblyReference.cache
+C:\Users\5\Desktop\зубрильня\proga\C#\sea battle\sea battle\obj\Debug\sea_battle.Form1.resources
+C:\Users\5\Desktop\зубрильня\proga\C#\sea battle\sea battle\obj\Debug\sea_battle.Properties.Resources.resources
+C:\Users\5\Desktop\зубрильня\proga\C#\sea battle\sea battle\obj\Debug\sea battle.csproj.GenerateResource.cache
+C:\Users\5\Desktop\зубрильня\proga\C#\sea battle\sea battle\obj\Debug\sea battle.csproj.CoreCompileInputs.cache
+C:\Users\5\Desktop\зубрильня\proga\C#\sea battle\sea battle\obj\Debug\sea battle.exe
+C:\Users\5\Desktop\зубрильня\proga\C#\sea battle\sea battle\obj\Debug\sea battle.pdb

@@ -1,0 +1,10 @@
+C:\Users\5\Desktop\зубрильня\proga\C#\krestiki noliki\krestiki noliki\bin\Debug\krestiki noliki.exe.config
+C:\Users\5\Desktop\зубрильня\proga\C#\krestiki noliki\krestiki noliki\bin\Debug\krestiki noliki.exe
+C:\Users\5\Desktop\зубрильня\proga\C#\krestiki noliki\krestiki noliki\bin\Debug\krestiki noliki.pdb
+C:\Users\5\Desktop\зубрильня\proga\C#\krestiki noliki\krestiki noliki\obj\Debug\krestiki noliki.csprojAssemblyReference.cache
+C:\Users\5\Desktop\зубрильня\proga\C#\krestiki noliki\krestiki noliki\obj\Debug\krestiki_noliki.Form1.resources
+C:\Users\5\Desktop\зубрильня\proga\C#\krestiki noliki\krestiki noliki\obj\Debug\krestiki_noliki.Properties.Resources.resources
+C:\Users\5\Desktop\зубрильня\proga\C#\krestiki noliki\krestiki noliki\obj\Debug\krestiki noliki.csproj.GenerateResource.cache
+C:\Users\5\Desktop\зубрильня\proga\C#\krestiki noliki\krestiki noliki\obj\Debug\krestiki noliki.csproj.CoreCompileInputs.cache
+C:\Users\5\Desktop\зубрильня\proga\C#\krestiki noliki\krestiki noliki\obj\Debug\krestiki noliki.exe
+C:\Users\5\Desktop\зубрильня\proga\C#\krestiki noliki\krestiki noliki\obj\Debug\krestiki noliki.pdb

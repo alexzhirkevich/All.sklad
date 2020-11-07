@@ -1,0 +1,28 @@
+E:\VS проекты\lab 4 cs\lab 4 cs\bin\Debug\lab 4 cs.exe.config
+E:\VS проекты\lab 4 cs\lab 4 cs\bin\Debug\lab 4 cs.exe
+E:\VS проекты\lab 4 cs\lab 4 cs\bin\Debug\lab 4 cs.pdb
+E:\VS проекты\lab 4 cs\lab 4 cs\obj\Debug\lab 4 cs.csprojAssemblyReference.cache
+E:\VS проекты\lab 4 cs\lab 4 cs\obj\Debug\lab_4_cs.Properties.Resources.resources
+E:\VS проекты\lab 4 cs\lab 4 cs\obj\Debug\lab 4 cs.csproj.GenerateResource.cache
+E:\VS проекты\lab 4 cs\lab 4 cs\obj\Debug\lab 4 cs.csproj.CoreCompileInputs.cache
+E:\VS проекты\lab 4 cs\lab 4 cs\obj\Debug\lab 4 cs.exe
+E:\VS проекты\lab 4 cs\lab 4 cs\obj\Debug\lab 4 cs.pdb
+E:\VS проекты\lab 4 cs\lab 4 cs\obj\Debug\lab_4_cs.Dlg.resources
+E:\VS проекты\lab 4 cs\lab 4 cs\obj\Debug\lab_4_cs.AppWindow.resources
+E:\VS проекты\lab 4 cs\lab 4 cs\bin\Debug\ru-RU\lab 4 cs.resources.dll
+E:\VS проекты\lab 4 cs\lab 4 cs\obj\Debug\lab_4_cs.AppWindow.ru-RU.resources
+E:\VS проекты\lab 4 cs\lab 4 cs\obj\Debug\ru-RU\lab 4 cs.resources.dll
+D:\VSprojects\C#\10_Zhirkevich_C#4\lab 4 cs\bin\Debug\lab 4 cs.exe.config
+D:\VSprojects\C#\10_Zhirkevich_C#4\lab 4 cs\bin\Debug\lab 4 cs.exe
+D:\VSprojects\C#\10_Zhirkevich_C#4\lab 4 cs\bin\Debug\lab 4 cs.pdb
+D:\VSprojects\C#\10_Zhirkevich_C#4\lab 4 cs\bin\Debug\ru-RU\lab 4 cs.resources.dll
+D:\VSprojects\C#\10_Zhirkevich_C#4\lab 4 cs\obj\Debug\lab 4 cs.csprojAssemblyReference.cache
+D:\VSprojects\C#\10_Zhirkevich_C#4\lab 4 cs\obj\Debug\lab_4_cs.Dlg.resources
+D:\VSprojects\C#\10_Zhirkevich_C#4\lab 4 cs\obj\Debug\lab_4_cs.AppWindow.resources
+D:\VSprojects\C#\10_Zhirkevich_C#4\lab 4 cs\obj\Debug\lab_4_cs.Properties.Resources.resources
+D:\VSprojects\C#\10_Zhirkevich_C#4\lab 4 cs\obj\Debug\lab_4_cs.AppWindow.ru-RU.resources
+D:\VSprojects\C#\10_Zhirkevich_C#4\lab 4 cs\obj\Debug\lab 4 cs.csproj.GenerateResource.cache
+D:\VSprojects\C#\10_Zhirkevich_C#4\lab 4 cs\obj\Debug\lab 4 cs.csproj.CoreCompileInputs.cache
+D:\VSprojects\C#\10_Zhirkevich_C#4\lab 4 cs\obj\Debug\ru-RU\lab 4 cs.resources.dll
+D:\VSprojects\C#\10_Zhirkevich_C#4\lab 4 cs\obj\Debug\lab 4 cs.exe
+D:\VSprojects\C#\10_Zhirkevich_C#4\lab 4 cs\obj\Debug\lab 4 cs.pdb
