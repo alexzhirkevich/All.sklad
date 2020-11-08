@@ -3,22 +3,23 @@ from functools import reduce
 from decimal import *
 import time
 from abc import abstractclassmethod,ABC
+from typing import List
 
 class Vector:
     @staticmethod
-    def sub(a,b):
+    def sub(a:List[Decimal],b:List[Decimal]) -> List[Decimal]:
         if (len(a)!=len(b)):
             raise Exception("Vector sub error: wrong sizes")
         return [i-j for i,j in zip(a,b)]
 
     @staticmethod  
-    def sum(a,b):
+    def sum(a:List[Decimal],b:List[Decimal]) -> List[Decimal]:
         if (len(a)!=len(b)):
             raise Exception("Vector sub error: wrong sizes")
         return [i+j for i,j in zip(a,b)]
     
     @staticmethod
-    def print(vector):
+    def print(vector:List[Decimal]) -> None:
         if (vector and len(vector)>0):
             if (vector[0].__class__== Decimal):
                 print([i.to_eng_string() for i in vector])
@@ -31,7 +32,7 @@ class Matrix:
    
     #метод гаусса с выбором главного эл-та по столбцу
     @staticmethod
-    def _gauss(matrix, vector=None):
+    def _gauss(matrix:List[List[Decimal]], vector:List[Decimal] = None) -> (List[List[Decimal]], int, List[Decimal]):
         tMatrix = [list(i) for i in matrix]
         if (vector != None):
             tResult = list(vector)
@@ -70,7 +71,7 @@ class Matrix:
     
     #решение СЛУ
     @staticmethod
-    def _solveSystem(matrix,f):
+    def _solveSystem(matrix:List[List[Decimal]],f:List[Decimal]) -> List[Decimal]:
         
         if Matrix.det(matrix)==0:
             raise Exception("Impossible to solve: det = 0")
@@ -93,52 +94,52 @@ class Matrix:
     
     #транспонирование
     @staticmethod
-    def transpose(matrix):
+    def transpose(matrix:List[List[Decimal]])->List[List[Decimal]]:
         return [[matrix[j][i] for j in range(len(matrix[i]))] for i in range(len(matrix))]
 
     #определитель
     @staticmethod
-    def det(matrix):
+    def det(matrix:List[List[Decimal]])->Decimal:
         tMatrix, replaces = Matrix._gauss(matrix)
         return reduce(lambda x,y:x*y,[tMatrix[i][i] for i in range(len(tMatrix))]) * ((-1) ** int(replaces % 2 != 0))
 
     #поиск обратной матрицы 
     @staticmethod
-    def inverse(matrix):
+    def inverse(matrix:List[List[Decimal]]) -> List[List[Decimal]]:
         return Matrix.transpose([Matrix._solveSystem(matrix, line) for line in 
             [[int(i==j) for j in range(len(matrix[i]))] for i in range(len(matrix))]])
 
     #умножение матриц
     @staticmethod
-    def mul(a,b):
+    def mul(a:List[List[Decimal]],b:List[List[Decimal]]) -> List[List[Decimal]]:
         if (len(a[0])!=len(b)):
             raise Exception("Matrix mul error: wrong sizes")
         return [[(sum(a[i][k]*b[k][j] for k in range(len(a)))) for j in range(len(a[i]))] for i in range(len(a))]
 
     #умножение матрицы на столбец
     @staticmethod
-    def mulVector(matrix,vector):
+    def mulVector(matrix:List[List[Decimal]], vector:List[Decimal])->List[Decimal]:
         if (len(matrix[0])!=len(vector)):
             raise Exception("Matrix mulVector error: wrong sizes")
         return [(sum([matrix[i][j]*vector[j] for j in range(len(vector))])) for i in range(len(matrix))]               
     
     #сумма матриц
     @staticmethod
-    def sum(a,b):
+    def sum(a:List[List[Decimal]],b:List[List[Decimal]]) -> List[List[Decimal]]:
         if (len(a)!= len(b) or len(a[0]) != len(b[0])): 
             raise Exception("Matrix sub error: wrond size")   
         return [[a[i][j]+b[i][j] for j in range(len(a[i]))]for i in range(len(a))]
 
     #разность матриц
     @staticmethod
-    def sub(a,b):
+    def sub(a:List[List[Decimal]], b:List[List[Decimal]]) -> List[List[Decimal]]:
         if (len(a)!= len(b) or len(a[0]) != len(b[0])): 
             raise Exception("Matrix sub error: wrond size")   
         return [[a[i][j]-b[i][j] for j in range(len(a[i]))]for i in range(len(a))]
     
     #печать матрицы      
     @staticmethod
-    def print(matrix,precision = 16): 
+    def print(matrix:List[List[Decimal]] ,precision:int = 16) -> None: 
         for line in matrix:
             for item in line:
                 print(str(round(item,precision))+'\t', end = '')
@@ -146,7 +147,7 @@ class Matrix:
 
 class SLE:
     #инициализация СЛУ
-    def __init__(self,n):
+    def __init__(self,n:int)->None:
         super()
         #случайное задание матрицы A 
         self._matrix = [[Decimal(str(round(-n+random.random()*2*n,2))) for j in range(n)] for i in range(n)]
@@ -156,23 +157,23 @@ class SLE:
         self._result = Matrix.mulVector(self._matrix,self._solution)
 
 
-    def _countResult(self):
+    def _countResult(self) -> None:
         self._result = Matrix.mulVector(self._matrix, self._solution)
 
     #A
-    def getMatrix(self):
+    def getMatrix(self)->List[List[Decimal]]:
         return [(list(i)) for i in self._matrix]
     
     #x
-    def getSolution(self):
+    def getSolution(self)->List[Decimal]:
         return list(self._solution)
     
     #f
-    def getF(self):
+    def getF(self)->List[Decimal]:
         return list(self._result)
 
     #решение системы
-    def solve(self,f = None):
+    def solve(self,f:List[Decimal] = None) ->List[Decimal]:
         if (f == None):
             return Matrix._solveSystem(self._matrix,self._result)
         else:
@@ -181,7 +182,7 @@ class SLE:
 class TridiagonalSLE(SLE):
   
     #создание трехдиагональной матрицы с диоганальным преобладанием
-    def __init__(self,n):
+    def __init__(self,n:int)->None:
 
         self._a = [Decimal(str(round(-n+random.random()*2*n,2))) for _ in range(n)]
         self._c = [Decimal(str(round(-n+random.random()*2*n,2))) for _ in range(n-1)]
@@ -203,7 +204,7 @@ class TridiagonalSLE(SLE):
         self._countResult()
 
     
-    def solve(self):
+    def solve(self) -> List[Decimal]:
 
         #прямой ход
         y = [self._b[0]]
@@ -228,7 +229,7 @@ class TridiagonalSLE(SLE):
         return result
 
 class Iterative(ABC, SLE):
-    def __init__(self,n,eps = 1e-5):
+    def __init__(self, n:int, eps:float = 1e-5) -> None:
         SLE.__init__(self,n)
         self._eps = eps
     
@@ -244,7 +245,7 @@ class Iterative(ABC, SLE):
     
 class SimpleIteration(Iterative):
 
-    def __init__(self,n,eps = 1e-5):
+    def __init__(self, n:int, eps:float = 1e-5) -> None:
         Iterative.__init__(self,n,eps)
 
         for i in range(len(self._matrix)):
@@ -253,13 +254,7 @@ class SimpleIteration(Iterative):
 
         self._countResult()
 
-    def solve(self):
-        """
-        return:\n
-                result (list) - [result of solving]
-                iterations (int) - number of iterations
-                exitValue (Decimal) - first <eps iteration value
-        """
+    def solve(self) -> (List[Decimal], int, Decimal):
 
         iterations = 0
         exitValue = 0
@@ -282,11 +277,11 @@ class SimpleIteration(Iterative):
         return result, iterations, exitValue
 
 class Relaxation(Iterative):
-    def __init__(self,n,w,eps=1e-5):
+    def __init__(self, n:int, w:float, eps:float=1e-5) -> None:
         Iterative.__init__(self, n,eps)
         self.__w = w
         self._matrix  = Matrix.mul(Matrix.transpose(self._matrix), self._matrix)
         self._countResult()
 
-    def solve(self):
+    def solve(self) -> (List[Decimal], int, Decimal):
         pass
