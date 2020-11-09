@@ -1,17 +1,21 @@
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+
+class A{
+	public int a = 0;
+}
 
 public class Client {
 
 	public static void main(String[] args)throws Exception {
-		Socket socket = new Socket("localhost",8888);
-		socket.setSoTimeout(500);
-		ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-		ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-		for (int i =0;i<10;i++){
-			oos.writeObject(new MyObj(i));
-			Thread.sleep(1000);
+		ArrayList<A> a = new ArrayList<>();
+		a.add(new A());
+		for (A el: a) {
+			el.a = 1;
 		}
+
+		System.out.println(a.get(0).a);
 	}
 
 }

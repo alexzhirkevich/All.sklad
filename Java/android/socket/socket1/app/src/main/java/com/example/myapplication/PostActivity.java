@@ -9,20 +9,19 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import application.client.Client;
+import application.message.MessageResult;
+import application.message.order.MessageOrder;
+import application.message.order.MessageOrderResult;
+
 
 public class PostActivity extends AppCompatActivity {
 
 
-    private String host;
-    private int port;
-
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-        Intent intent = getIntent();
-        host = intent.getStringExtra("HOST");
-        port = Integer.parseInt(intent.getStringExtra("PORT")!=null?intent.getStringExtra("PORT"):"8888");
     }
 
     public void sendMessage(View view) {
@@ -42,11 +41,18 @@ public class PostActivity extends AppCompatActivity {
                 return;
             }
 
-            String data = address.getText() + "\n" + order.getText();
+            new Thread( () -> {
+                try {
+                    MessageOrderResult mor = (MessageOrderResult)MainActivity.client.sendMessage(
+                            new MessageOrder(address.getText().toString(),order.getText().toString()));
+                    if (!mor.checkError())
+                        new AlertActivity(Client.sOrderNumber+ mor.getNumber()).show(getSupportFragmentManager(),"Error");
+                    else
+                        new AlertActivity(Client.sResponseError).show(getSupportFragmentManager(),"Error");
+                }
+                catch (Exception e) {}
+            }).start();
 
-            SocketMessage s = new SocketMessage(getSupportFragmentManager(),host,port);
-
-            s.sendMessage(data);
 
             address.setText("");
             order.setText("");
