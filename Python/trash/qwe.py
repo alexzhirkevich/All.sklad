@@ -13,15 +13,8 @@ if __name__ == "__main__":
     brows.get("https://edufpmi.bsu.by/mod/bigbluebuttonbn/view.php?id=8842")
     brows.find_element_by_id("join_button_input").click()
 
-
     time.sleep(3)
     brows.switch_to_window(brows.window_handles[1])
     brows.find_element_by_xpath("//button[@aria-label='Только слушать']").click()
 
-    # for i in range(5):
-    #     time.sleep(0.5)
-    #     brows.switch_to_window(brows.window_handles[i+1])
-    #     brows.find_element_by_xpath("//button[@aria-label='Только слушать']").click()
-    #     brows.switch_to_window(brows.window_handles[0])
-    #     brows.find_element_by_id("join_button_input").click()
     input()

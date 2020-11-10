@@ -1,1 +1,3 @@
-print([(x, y, x * y) for x in range(10) for y in range(10) if x <= y])
+a = [1,2,3]
+b = [3,5,5]
+print(a-b)

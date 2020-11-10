@@ -229,9 +229,8 @@ class TridiagonalSLE(SLE):
         return result
 
 class Iterative(ABC, SLE):
-    def __init__(self, n:int, eps:float = 1e-5) -> None:
+    def __init__(self, copyFrom:SLE = None, n:int = 10, eps:float = 2e-5) -> None:
         SLE.__init__(self,n)
-        self._eps = eps
     
     def getEps(self):
         return self._eps
@@ -245,14 +244,20 @@ class Iterative(ABC, SLE):
     
 class SimpleIteration(Iterative):
 
-    def __init__(self, n:int, eps:float = 1e-5) -> None:
-        Iterative.__init__(self,n,eps)
+    def __init__(self,copyFrom:SLE = None, n:int = 10, eps:float = 2e-5) -> None:
+        if (not copyFrom):
+            Iterative.__init__(self,n,eps)
+            for i in range(len(self._matrix)):
+                self._matrix[i][i] = sum([abs(a) for a in self._matrix[i]])
+            self._eps = eps
+            self._countResult()
+        else :
+            self._matrix = [list(line) for line in copyFrom._matrix]
+            self._result = list(copyFrom._result)
+            self._solution = list(copyFrom._solution)
+            if (copyFrom._eps):
+                self._eps = copyFrom._eps  
 
-        for i in range(len(self._matrix)):
-           self._matrix[i][i] = sum([abs(a) for a in self._matrix[i]])
-        self._eps = eps
-
-        self._countResult()
 
     def solve(self) -> (List[Decimal], int, Decimal):
 
@@ -277,11 +282,27 @@ class SimpleIteration(Iterative):
         return result, iterations, exitValue
 
 class Relaxation(Iterative):
-    def __init__(self, n:int, w:float, eps:float=1e-5) -> None:
+    def __init__(self, n:int, w:float, eps:float) -> None:
         Iterative.__init__(self, n,eps)
         self.__w = w
         self._matrix  = Matrix.mul(Matrix.transpose(self._matrix), self._matrix)
         self._countResult()
 
-    def solve(self) -> (List[Decimal], int, Decimal):
-        pass
+    def solve(self, w=1) -> (List[Decimal], int, Decimal,):
+        tResult = [self._result[i] / self._matrix[i][i] for i in range(len(self._matrix))]
+        result = [0 for i in range(len(self._matrix))]
+        iterations = 0
+        #матрица А в каноническом виде
+        tMatrix = [[self._matrix[i][j] / self._matrix[i][i] if i!=j else 0 for j in range(len(self._matrix))] for i in range(len(self._matrix))]
+        
+        while(max([abs(i) for i in Vector.sub(tResult, result)]) >= self._eps):
+            exitValue = max([abs(i) for i in Vector.sub(tResult, result)])
+            result = list(tResult)
+            for i in range(len(self._matrix)):
+                a = w * Vector.sub(Matrix.mulVector(self._matrix, tResult),self._result)[i] / self._matrix[i][i]
+                eXa = [0 if i!= j else a for j in range(len(self._matrix))]
+                tResult = Vector.sub(tResult, eXa)
+            iterations +=1
+            
+        return tResult, iterations, exitValue
+        
