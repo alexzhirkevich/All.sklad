@@ -1,13 +1,14 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
 public class Main {
 
-	static String hex = "0123456789ABCDEF";
+	static String sHex = "0123456789ABCDEF";
 	static int linenum = 1;
 	static String fInt = "integer10.txt";
 	static String fHex = "integer16.txt";
@@ -15,25 +16,71 @@ public class Main {
 	static String fE = "doubleE.txt";
 	static String fText = "text.txt";
 
+	static HashMap<Integer,Double> doubles = new HashMap<>();
+	static HashMap<Integer,Double> exp = new HashMap<>();
+	static HashMap<Integer,Integer> ints = new HashMap<>();
+	static HashMap<Integer,Integer> hex = new HashMap<>();
+	static HashMap<Integer,String> strings = new HashMap<>();
 
-	public static void main(String[] args)throws Exception {
-		ServerSocket serv = new ServerSocket(8888);
+	public static void main(String[] args){
+		Scanner sc = new Scanner(System.in);
+		int line = 0;
+		while (sc.hasNextLine()){
+			String s = "{}";
+			line++;
+			String[] tokens = sc.nextLine().split("\t\n ");
+			for (String word:tokens){
+				try{
+					Double value = Double.parseDouble(word);
+					if (!word.contains(".") && !word.contains("e") && !word.contains("E"))
+						throw new NumberFormatException();
+					if (word.contains("e")|| word.contains("E"))
+						exp.put(line,value);
+					else
+						doubles.put(line,value);
+				}
+				catch (NumberFormatException e){
+					try {
+						Integer value = Integer.parseInt(word);
+						ints.put(line, value);
+					}
+					catch (NumberFormatException ee){
+						try {
+							if (word.length() > 2) {
+								Integer value = Integer.parseInt(word.substring(2), 16);
+								hex.put(line, Integer.parseInt(word.substring(2), 16));
+							} else
+								throw new NumberFormatException();
+						}
+						catch (NumberFormatException eee){
+							strings.put(line,word);
+						}
+					}
+				}
+			}
+			System.out.print("1: ");
+			for (Integer d : ints.values())
+				System.out.print(d + " ");
+			System.out.println();
+			System.out.print("2: ");
+			for (Integer d : hex.values())
+				System.out.printf("%X ",d);
+			System.out.println();
 
-		MyObj obj = null;
-		System.out.println("Server started");
-		Socket client = serv.accept();
-		System.out.println("Connected");
-		client.setSoTimeout(500);
-		ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
-		ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
+			System.out.print("3: ");
+			for (Double d : doubles.values())
+				System.out.print(d + " ");
+			System.out.println();
 
-		while(true) {
-			try {
-				obj = (MyObj) ois.readObject();
-			} catch (Exception e) { }
-			if (obj!= null)
-				System.out.println(obj.getVal());
-			obj = null;
+			System.out.print("4: ");
+			for (Double d : exp.values())
+				System.out.printf("%E ", d);
+			System.out.println();
+			System.out.print("5: ");
+			for (String d : strings.values())
+				System.out.print(d + " ");
+			System.out.println();
+
 		}
 	}
 
