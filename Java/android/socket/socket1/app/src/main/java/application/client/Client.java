@@ -1,13 +1,19 @@
 package application.client;
+import android.net.InetAddresses;
 import android.os.StrictMode;
 import application.message.*;
 import application.message.connection.*;
+import application.protocol.Config;
 
 import java.io.*;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.util.Enumeration;
 
 public class Client extends Thread {
 
@@ -36,7 +42,8 @@ public class Client extends Thread {
 	public Client(String host, int port) throws IOException {
 		setThreadPolicy();
 		clientSocket = new Socket();
-		clientSocket.connect(new InetSocketAddress(host,port),5000);
+
+		clientSocket.connect(new InetSocketAddress(host, port), 5000);
 		if (clientSocket == null)
 			throw new SocketTimeoutException("Host is unavailable");
 		clientSocket.setSoTimeout(5000);
@@ -47,7 +54,14 @@ public class Client extends Thread {
 	public MessageConnectResult connect() throws MessageException, IOException, ClassNotFoundException{
 		if (connected)
 			return null;
-		return (MessageConnectResult)sendMessage(new MessageConnect());
+		MessageConnectResult mcr = (MessageConnectResult)sendMessage(new MessageConnect());
+		if (!mcr.checkError())
+			connected = true;
+		return mcr;
+	}
+
+	public boolean isConnected() {
+		return connected;
 	}
 
 	private void setThreadPolicy() {
@@ -62,6 +76,7 @@ public class Client extends Thread {
 	}
 
 	private void disconnect() throws IOException {
+		connected = false;
 		ois.close();
 		oos.close();
 		clientSocket.close();

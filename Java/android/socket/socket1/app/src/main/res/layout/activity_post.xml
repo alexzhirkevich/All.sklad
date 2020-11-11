@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PostActivity">
+    tools:context=".PostActivity"
+    android:background="@drawable/background">
 
 
     <EditText
@@ -17,7 +18,7 @@
         android:hint="Заказ"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:lines="4"
+        android:lines="8"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
         android:paddingRight="10dp"
@@ -33,8 +34,8 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorControlsBackground"
-        android:text="Доставка еды"
+        android:background="@drawable/title"
+        android:text="Заказ"
         android:textAlignment="center"
         android:textColor="@color/colorText"
         android:textSize="45dp"
@@ -67,15 +68,19 @@
 
     <Button
         android:id="@+id/sendOrder"
-        android:layout_width="119dp"
-        android:layout_height="52dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="136dp"
         android:layout_marginRight="136dp"
-        android:background="@color/colorControlsBackground"
+        android:background="@drawable/round_button"
         android:onClick="sendMessage"
         android:text="ОТПРАВИТЬ"
         android:textColor="@color/colorText"
         android:textSize="17dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="15dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

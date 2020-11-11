@@ -9,6 +9,7 @@ import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -18,6 +19,7 @@ import java.net.Socket;
 import application.client.Client;
 import application.message.MessageException;
 import application.message.connection.MessageConnect;
+import application.message.connection.MessageConnectResult;
 import application.protocol.Config;
 
 
@@ -25,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "EXTRA_MESSAGE";
     public static Client client;
     public static boolean showExceptions = false;
-    private static boolean connected = false;
     private static String host = Config.HOST;
 
     public void alertException(Exception e){
@@ -40,25 +41,35 @@ public class MainActivity extends AppCompatActivity {
     public void connect(View view) {
         Button b1 = findViewById(R.id.btnMenu);
         Button b2 = findViewById(R.id.btnMakeOrder);
-        runOnUiThread(() -> b1.setEnabled(false));
-        runOnUiThread(() -> b2.setEnabled(false));
-        try {
-            runOnUiThread(() -> host = ((EditText) findViewById(R.id.ip_field)).getText().toString());
+        Button b3 = findViewById(R.id.btnConnect);
+        ProgressBar pb = findViewById(R.id.progressBar);
+        runOnUiThread(() -> {
+            b1.setEnabled(false);
+            b2.setEnabled(false);
+            b3.setEnabled(false);
+            pb.setVisibility(View.VISIBLE);
+        });
+        runOnUiThread(() -> host = ((EditText) findViewById(R.id.ip_field)).getText().toString());
+        new Thread(() ->{
+            try {
+                client = new Client(host, Config.PORT);
 
-            client = new Client(host, Config.PORT);
-
-            if (client.connect().checkError())
+                client.connect();
+            } catch (Exception e) {
                 new AlertActivity(Client.sConnectionFailed).show(getSupportFragmentManager(), "Error");
-            connected = true;
-            runOnUiThread(() -> findViewById(R.id.btnConnect).setVisibility(View.INVISIBLE));
-        } catch (Exception e) {
-            new AlertActivity(Client.sConnectionFailed).show(getSupportFragmentManager(), "Error");
-            runOnUiThread(() -> findViewById(R.id.btnConnect).setVisibility(View.VISIBLE));
-        }
-        runOnUiThread(() -> findViewById(R.id.progressBar).setVisibility(View.INVISIBLE));
-        runOnUiThread(() -> b1.setEnabled(true));
-        runOnUiThread(() -> b2.setEnabled(true));
-
+            }
+            if (client != null &&
+                    client.isConnected())
+                runOnUiThread(() -> b3.setVisibility(View.INVISIBLE));
+            else
+                runOnUiThread(() -> b3.setVisibility(View.VISIBLE));
+            runOnUiThread(() -> {
+                pb.setVisibility(View.INVISIBLE);
+                b1.setEnabled(true);
+                b2.setEnabled(true);
+                b3.setEnabled(true);
+            });
+        }).start();
     }
 
     @Override
@@ -69,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             EditText ip = findViewById(R.id.ip_field);
             ip.setText(Config.HOST);
 
-            new Thread(() ->connect(null)).start();
+            connect(null);
 
 
         } catch (Exception e) {
@@ -78,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public void makeOrder(View view) {
-        if (!connected){
+        if (!client.isConnected()){
             new AlertActivity("Отсутствует соединение с сервером").show(getSupportFragmentManager(), "Error");
             return;
         }
@@ -92,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getMenu(View view) {
-        if (!connected){
+        if (!client.isConnected()){
             new AlertActivity("Отсутствует соединение с сервером").show(getSupportFragmentManager(), "Error");
             return;
         }

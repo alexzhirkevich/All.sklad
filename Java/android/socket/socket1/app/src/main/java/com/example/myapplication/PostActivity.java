@@ -1,16 +1,9 @@
 package com.example.myapplication;
-
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-
 import application.client.Client;
-import application.message.MessageResult;
 import application.message.order.MessageOrder;
 import application.message.order.MessageOrderResult;
 
@@ -30,21 +23,24 @@ public class PostActivity extends AppCompatActivity {
             EditText address = findViewById(R.id.address);
             EditText order = findViewById(R.id.order);
 
+            String sAddress = address.getText().toString().trim();
+            String sOrder = order.getText().toString().trim();
 
-            if (address.getText() == null || address.getText().length() == 0){
+            if (sAddress == ""){
                 new AlertActivity("Введите адрес").show(getSupportFragmentManager(),"Error");
                 return;
             }
 
-            if (order.getText() == null || order.getText().length() == 0){
+            if (sOrder == ""){
                 new AlertActivity("Введите заказ").show(getSupportFragmentManager(),"Error");
                 return;
             }
 
             new Thread( () -> {
                 try {
+                    String sOrderEdited = sOrder.replaceAll("\n\n","\n").replaceAll("\n",",");
                     MessageOrderResult mor = (MessageOrderResult)MainActivity.client.sendMessage(
-                            new MessageOrder(address.getText().toString(),order.getText().toString()));
+                            new MessageOrder(sAddress,sOrderEdited));
                     if (!mor.checkError())
                         new AlertActivity(Client.sOrderNumber+ mor.getNumber()).show(getSupportFragmentManager(),"Error");
                     else
@@ -59,7 +55,6 @@ public class PostActivity extends AppCompatActivity {
 
 
         } catch (Exception e){
-            new IntentMessage(getApplicationContext(), e.getMessage()).run();
         }
     }
 
