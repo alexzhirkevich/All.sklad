@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
             b2.setEnabled(false);
             b3.setEnabled(false);
             pb.setVisibility(View.VISIBLE);
+            host = ((EditText) findViewById(R.id.ip_field)).getText().toString();
         });
-        runOnUiThread(() -> host = ((EditText) findViewById(R.id.ip_field)).getText().toString());
         new Thread(() ->{
             try {
                 client = new Client(host, Config.PORT);

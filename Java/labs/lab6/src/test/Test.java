@@ -112,7 +112,7 @@ public class Test {
 
 	public static boolean startFlight(Airport ap, int idx) throws Exception{
 		if (!ap.startFlight(idx)) {
-			if (ap.getWeatherConditions() == Airport.Weather.inapropreate) {
+				if (ap.getWeatherConditions() == Airport.Weather.inapropreate) {
 				System.out.println(MyLocale.getString(MyLocale.start_failure) + " " + ap.getName());
 			}
 			if (ap.getFlightDestination(idx).getWeatherConditions() == Airport.Weather.inapropreate) {

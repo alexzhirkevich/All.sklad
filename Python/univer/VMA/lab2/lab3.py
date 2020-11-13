@@ -3,38 +3,32 @@ from matrix import *
 
 #тестирование
 if __name__ == "__main__":
-    
-        tsle = SimpleIteration(3, 1e-5)
 
+        first = SimpleIteration(n=10, eps =1e-5)
         print("Система уравнений:")
-        Matrix.print(tsle.getMatrix(),precision = 2)
-        
+        Matrix.print(first.getMatrix(),precision = 2)
         print("Точное решение: ", end = '')
-        Vector.print(tsle.getSolution())
-        
+        Vector.print(first.getSolution())
+    
+        print("\n*****МЕТОД ПРОСТЫХ ИТЕРАЦИЙ*****\n")
         print("Решение: ", end = '')
-        Vector.print(tsle.solve()[0])
-        print(tsle.solve()[2])
+        Vector.print(first.solve()[0])
+        print("Максимум-норма погрешности:",end = '')
+        print(max([abs(i) for i in Vector.sub(first.getSolution(),first.solve()[0])]))
 
-        sle = Relaxation(copyFrom = tsle)
-
-        Vector.print(sle.getSolution())
-        Vector.print(sle.solve()[0])
-
-        print("w = 0.2 | " + str(sle.solve(0.2)[1]) + " | " + str(sle.solve(0.2)[2]))
-        print("w = 0.5 | " + str(sle.solve(0.5)[1]) + " | " + str(sle.solve(0.5)[2]))
-        print("w = 0.8 | " + str(sle.solve(0.8)[1]) + " | " + str(sle.solve(0.8)[2]))
-        print("w = 1.0 | " + str(sle.solve(1.0)[1]) + " | " + str(sle.solve(1.0)[2]))
-        print("w = 1.3 | " + str(sle.solve(1.3)[1]) + " | " + str(sle.solve(1.3)[2]))
-        print("w = 1.5 | " + str(sle.solve(1.5)[1]) + " | " + str(sle.solve(1.5)[2]))
-        print("w = 1.8 | " + str(sle.solve(1.8)[1]) + " | " + str(sle.solve(1.8)[2]))
-
-        it1 = sle.solve(0.01)[1]
-
+        print("\n*****МЕТОД РЕЛАКСАЦИИ*****\n")
+        second = Relaxation(copyFrom = first)
+        wList = [0.2, 0.5, 0.8, 1.0, 1.3, 1.5, 1.8]
+        for w in wList:
+            solution = second.solve(w)
+            print("| w = {} | {} | {}".format(w, solution[1], solution[2]))
+        it1 = second.solve(0.01)[1]
         for i in range(1,200):
-            it2 = sle.solve(i/100)[1]
-            if it2 > it1:
-                print("Best w: " +  str(i/100) + " | " + str(it2))
+            it2 = second.solve(i/100)[1]
+            if it2 > it1 or i == 199:
+                print("Наилучший результат при w = " +  str((i-1)/100) + ": " + str(it1) + " итераций")
+                print("Решение: ", end = '')
+                Vector.print(second.solve()[0])
                 break
             it1 = it2
         
