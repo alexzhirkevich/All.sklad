@@ -3,8 +3,6 @@ package parking.buffer;
 import java.io.*;
 import java.util.zip.*;
 
-
-
 public class Buffer {
 
 	private static final  String zipEntryName = "z";
@@ -50,7 +48,7 @@ public class Buffer {
 		ByteArrayInputStream  bufIn = new ByteArrayInputStream( arr );
 		try( ZipInputStream zis = new ZipInputStream( bufIn )) {
 			ZipEntry zen = zis.getNextEntry();
-			if ( zen.getName().equals(zipEntryName)== false ) {
+			if (!zen.getName().equals(zipEntryName)) {
 				throw new IOException("Invalid block format");
 			}
 			try ( ObjectInputStream ois = new ObjectInputStream( zis )) {

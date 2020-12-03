@@ -5,8 +5,6 @@ import parking.buffer.ParkingIO;
 import parking.index.KeyComp;
 import parking.index.KeyCompReverse;
 
-import java.io.FileNotFoundException;
-
 public class Test {
 
 	public static final String helpString = "Syntax:\n" +

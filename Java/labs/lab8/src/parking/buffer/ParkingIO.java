@@ -65,8 +65,8 @@ public class ParkingIO {
 
 	public static void printRecord(PrintStream ps, RandomAccessFile raf, String key, IndexBase pidx ) throws
 			ClassNotFoundException, IOException {
-		long[] poss = pidx.get(key);
-		for ( long pos : poss ) {
+		Vector<Long> poss = pidx.get(key);
+		for ( Long pos : poss ) {
 			ps.print( "*** Key: " +  key + " points to" );
 			printRecord(ps, raf, pos );
 		}
@@ -83,7 +83,7 @@ public class ParkingIO {
 			if (pidx == null) {
 				return ParkingResult.InvalidIndexSpecified;
 			}
-			String[] keys = pidx.getKeys(reverse ? new KeyCompReverse() : new KeyComp());
+			TreeSet<String> keys = pidx.getKeys(reverse ? new KeyCompReverse() : new KeyComp());
 			for (String key : keys) {
 				printRecord(ps, raf, key, pidx);
 			}
@@ -125,7 +125,7 @@ public class ParkingIO {
 				return ParkingResult.KeyNotFound;
 			}
 			String key;
-			String[] keys = pidx.getKeys( comp );
+			TreeSet<String> keys = pidx.getKeys( comp );
 			for (String k : keys) {
 				if ((key = k).equals(args[2])) {
 					break;
@@ -168,7 +168,7 @@ public class ParkingIO {
 		if ( args.length != 3 ) {
 			return ParkingResult.InvalidNumberOfArguments;
 		}
-		long[] poss;
+		Vector<Long> poss;
 		try ( Index idx = Index.load(idxName)) {
 			IndexBase pidx = indexByArg( args[1], idx );
 			if (pidx == null) {
@@ -180,15 +180,15 @@ public class ParkingIO {
 			poss = pidx.get(args[2]);
 		}
 		backup();
-		Arrays.sort(poss);
+		Collections.sort(poss);
 		try ( Index idx = Index.load(idxName);
 			  RandomAccessFile fileBak= new RandomAccessFile(fileNameBak, "rw");
 			  RandomAccessFile file = new RandomAccessFile( fileName, "rw")) {
 			long pos;
 			while (( pos = fileBak.getFilePointer()) < fileBak.length() ) {
 				BufferObject bo = Buffer.readObject(fileBak, pos);
-				if (Arrays.binarySearch(poss, pos) < 0 ) {
-					long ptr = Buffer.writeObject(file, bo);
+				if (!poss.contains(pos)) {
+					Long ptr = Buffer.writeObject(file, bo);
 					idx.put((Note)bo.getObject(), ptr);
 				}
 			}

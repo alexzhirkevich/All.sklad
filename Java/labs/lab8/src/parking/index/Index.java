@@ -6,6 +6,7 @@ import parking.buffer.ParkingIO;
 import parking.lang.Note;
 
 import java.io.*;
+import java.util.Vector;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -36,15 +37,6 @@ public class Index implements Serializable, Closeable {
 		names 	= new MultiIndex();
 	}
 
-	public static long[] InsertValue( long[] arr, long value ) throws  NullPointerException{
-		if (arr == null)
-			throw new NullPointerException("Index.InsertValue : arr is not initialized");
-		long [] result = new long[arr.length + 1];
-		System.arraycopy(arr, 0, result, 0, arr.length);
-		result[arr.length] = value;
-		return result;
-	}
-
 	public void test( Note note ) throws ParkingException {
 		assert( note != null );
 		if ( numbers.contains(note.getCarNumber())) {
@@ -52,7 +44,7 @@ public class Index implements Serializable, Closeable {
 		}
 	}
 
-	public void put( Note note, long value ) throws ParkingException {
+	public void put( Note note, Long value ) throws ParkingException {
 		test( note );
 		numbers.put( note.getCarNumber(), value );
 		names.put( note.getCarOwner(), value);

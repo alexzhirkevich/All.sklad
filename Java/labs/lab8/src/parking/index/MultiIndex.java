@@ -1,15 +1,13 @@
 package parking.index;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.TreeMap;
-import java.util.Comparator;
+import java.util.*;
 
 public class MultiIndex implements Serializable, IndexBase {
 
 	private static final long serialVersionUID = 1L;
 
-	private TreeMap<String,long[]> map;
+	private TreeMap<String,Vector<Long>> map;
 
 	public MultiIndex() { map = new TreeMap<> (); }
 
@@ -17,31 +15,28 @@ public class MultiIndex implements Serializable, IndexBase {
 		map = new TreeMap<>(mi.map);
 	}
 
-	public String[] getKeys( Comparator<String> comp ) {
-		String[] result = map.keySet().toArray( new String[0] );
-		Arrays.sort( result, comp );
+	public TreeSet<String> getKeys(Comparator<String> comp ) {
+		TreeSet<String> result = new TreeSet<String>(comp);
+		result.addAll(map.keySet());
 		return result;
 	}
 
-	public void put( String key, long value ) {
-		long[] arr = map.get(key);
-		arr = (arr != null) ? Index.InsertValue( arr, value ) : new long[] {value};
-		map.put(key, arr);
-	}
-
-	public void put( String[] keys,  long value ) throws NullPointerException {
-		if (keys == null)
-			throw new NullPointerException("keys is not initialized");
-		for (String key : keys) {
-			put(key.trim(), value);
+	public void put( String key, Long value ) {
+		Vector<Long> arr = map.get(key);
+		if (arr!= null)
+			arr.add(value);
+		else {
+			arr = new Vector<>();
+			arr.add(value);
 		}
+		map.put(key, arr);
 	}
 
 	public boolean contains( String key ) {
 		return map.containsKey(key);
 	}
 
-	public long[] get( String key ) {
-		return map.get( key );
+	public Vector<Long> get( String key ) {
+		return new Vector<>(map.get(key));
 	}
 }

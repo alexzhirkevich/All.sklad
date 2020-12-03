@@ -2,9 +2,7 @@ package parking.index;
 
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.TreeMap;
+import java.util.*;
 
 public class UniqueIndex implements Serializable, IndexBase {
 
@@ -20,13 +18,13 @@ public class UniqueIndex implements Serializable, IndexBase {
 		map = new TreeMap<>(mi.map);
 	}
 
-	public String[] getKeys( Comparator<String> comp ) {
-		String[] result = map.keySet().toArray( new String[0] );
-		Arrays.sort( result, comp );
+	public TreeSet<String> getKeys(Comparator<String> comp ) {
+		TreeSet<String> result = new TreeSet<String>(comp);
+		result.addAll(map.keySet());
 		return result;
 	}
 
-	public void put( String key, long value ) {
+	public void put( String key, Long value ) {
 		map.put(key, value);
 	}
 
@@ -34,8 +32,9 @@ public class UniqueIndex implements Serializable, IndexBase {
 		return map.containsKey(key);
 	}
 
-	public long[] get( String key ) {
-		long pos = map.get(key);
-		return new long[] { pos };
+	public Vector<Long> get(String key ) {
+		Vector<Long> v = new Vector<Long>();
+		v.add(map.get(key));
+		return v;
 	}
 }

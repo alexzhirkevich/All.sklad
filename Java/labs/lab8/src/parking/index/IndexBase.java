@@ -1,10 +1,12 @@
 package parking.index;
 
 import java.util.Comparator;
+import java.util.TreeSet;
+import java.util.Vector;
 
 public interface IndexBase {
-	String[] getKeys( Comparator<String> comp );
-	void put( String key, long value );
+	TreeSet<String> getKeys(Comparator<String> comp );
+	void put( String key, Long value );
 	boolean contains( String key );
-	long[] get( String key );
+	Vector<Long> get(String key );
 }
