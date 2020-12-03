@@ -13,6 +13,16 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+# Default ignored files
+**/arr/
+**/comm/
+**/cos/
+**/cosinus/
+**/str/
+**/.idea/*
+**/out/
+
+
 # Mono auto generated files
 mono_crash.*
 
