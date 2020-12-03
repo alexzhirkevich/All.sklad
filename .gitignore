@@ -21,6 +21,7 @@
 **/str/
 **/.idea/*
 **/out/
+*.iml
 
 
 # Mono auto generated files
