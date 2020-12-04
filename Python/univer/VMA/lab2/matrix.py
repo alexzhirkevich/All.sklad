@@ -345,24 +345,25 @@ class Relaxation(Iterative):
 
 class Eigen(ABC):
 
-    def __init__(self, var:int,eps:float) -> None:
-        self._B =   [[1.342, 0.432, 0.599, 0.202, 0.603, 0.202],
+    def __init__(self, var:int) -> None:
+        B =   [[1.342, 0.432, 0.599, 0.202, 0.603, 0.202],
                     [0.432, 1.342, 0.256, 0.599, 0.204, 0.304],
                     [0.599, 0.256, 1.342, 0.532, 0.101, 0.506],
                     [0.202, 0.599, 0.532, 1.342, 0.106, 0.311],
                     [0.603, 0.204, 0.101, 0.106, 1.342, 0.102],
                     [0.202, 0.304, 0.506, 0.311, 0.102, 1.342]]
 
-        self._C =   [[0.05, 0, 0, 0, 0, 0],
+        C =   [[0.05, 0, 0, 0, 0, 0],
                     [0, 0.03, 0, 0, 0, 0],
                     [0, 0, 0.02, 0, 0, 0],
                     [0, 0, 0, 0.04, 0, 0],
                     [0, 0, 0, 0, 0.06, 0],
                     [0, 0, 0, 0, 0, 0.07]]
 
-        self._k = var
-        self._eps = eps
-        self._A = Matrix.sum(self._B, Matrix.mulFloat(self._C, self._k))
+        self._A = Matrix.sum(B, Matrix.mulFloat(C, var))
+
+    def getMatrix(self) -> List:
+        return [list(line) for line in self._A]
 
     @abstractmethod
     def find(self) -> (float, List, int, List):
@@ -379,20 +380,19 @@ class Eigen(ABC):
         pass
 
         
+#Итерационно-степенной метод
+class ItPowMethod(Eigen):
 
-class ItStepMethod(Eigen):
-
-    def find(self) -> (float, List, int, List):
+    def find(self,eps:float) -> (float, List, int, List):
 
         delta = float("inf")
         startVector = [random.randrange(1,1000)/1000 for _ in self._A]
 
         y0 = Vector.normalize(startVector)
-        
         Lambda0 = [random.randrange(0,10)/10 for _ in self._A]
         iterations = 0
 
-        while (delta > self._eps):
+        while (delta > eps):
             y = Matrix.mulVector(self._A,y0)
 
             Lambda = [el1/el2 for el1,el2 in zip(y,y0)]
@@ -404,22 +404,22 @@ class ItStepMethod(Eigen):
         return sum(Lambda)/len(Lambda), y0, iterations, startVector
         
 
+#Метод скалярных произведений
 class ScalMulMethod(Eigen):
 
-    def find(self) -> (float, List, int, List):
+    def find(self,eps:float) -> (float, List, int, List):
 
         delta = float("inf")
         startVector = [random.randrange(1,1000)/1000 for _ in self._A]
 
         y0 = Vector.normalize(startVector)
-        
         Lambda0 = random.randrange(1,1000)/1000
         iterations = 0
 
-        while (delta > self._eps):
+        while (delta > eps):
             y = Matrix.mulVector(self._A,y0)
-
-            Lambda = sum([el1/el2 for el1,el2 in zip(y,y0)]) / sum([el1/el2 for el1,el2 in zip(y0,y0)])
+            Lambda = (sum([el1*el2 for el1,el2 in zip(y,y0)]) /
+                sum([el1*el2 for el1,el2 in zip(y0,y0)]))
             delta = abs(Lambda - Lambda0)
             y0 = Vector.normalize(y)
             Lambda0 = Lambda
