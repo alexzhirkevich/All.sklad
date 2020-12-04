@@ -2,7 +2,7 @@ import random
 from functools import reduce
 from decimal import *
 import time
-from abc import abstractclassmethod,ABC
+from abc import abstractclassmethod,ABC, abstractmethod
 from typing import List
 
 class Vector:
@@ -17,6 +17,23 @@ class Vector:
         if (len(a)!=len(b)):
             raise Exception("Vector sub error: wrong sizes")
         return [i+j for i,j in zip(a,b)]
+
+    @staticmethod
+    def mulFloat(vec:List, val:float) -> List:
+        return [el*val for el in vec]
+
+    @staticmethod
+    def divFloat(vec:List, val:float) -> List:
+        return [el/val for el in vec]
+
+
+    @staticmethod
+    def norm(vec:List) -> float:
+        return max([abs(el) for el in vec])
+
+    @staticmethod
+    def normalize(vec:List) -> List:
+        return Vector.divFloat(vec, Vector.norm(vec))
     
     @staticmethod
     def print(vector:List[Decimal]) -> None:
@@ -121,8 +138,18 @@ class Matrix:
     def mulVector(matrix:List[List[Decimal]], vector:List[Decimal])->List[Decimal]:
         if (len(matrix[0])!=len(vector)):
             raise Exception("Matrix mulVector error: wrong sizes")
-        return [(sum([matrix[i][j]*vector[j] for j in range(len(vector))])) for i in range(len(matrix))]               
-    
+        return [(sum([matrix[i][j]*vector[j] for j in range(len(vector))])) for i in range(len(matrix))]       
+
+    @staticmethod
+    def mulFloat(a:List[List], b:float) -> List[List]:
+        return [[el*b for el in line] for line in a ]
+
+    @staticmethod
+    def divFloat(a:List[List], b:float) -> List[List]:
+        if (b == 0):
+            raise DivisionByZero()
+        return [[el/b for el in line] for line in a ]
+
     #сумма матриц
     @staticmethod
     def sum(a:List[List[Decimal]],b:List[List[Decimal]]) -> List[List[Decimal]]:
@@ -242,8 +269,8 @@ class Iterative(ABC, SLE):
     def setEps(self,eps):
         self._eps = eps
 
-    @abstractclassmethod
-    def solve(cls, f=None):
+    @abstractmethod
+    def solve(self, f=None):
         pass
     
 class SimpleIteration(Iterative):
@@ -315,3 +342,94 @@ class Relaxation(Iterative):
 
         return tResult, iterations, exitValue
     
+
+class Eigen(ABC):
+
+    def __init__(self, var:int,eps:float) -> None:
+        self._B =   [[1.342, 0.432, 0.599, 0.202, 0.603, 0.202],
+                    [0.432, 1.342, 0.256, 0.599, 0.204, 0.304],
+                    [0.599, 0.256, 1.342, 0.532, 0.101, 0.506],
+                    [0.202, 0.599, 0.532, 1.342, 0.106, 0.311],
+                    [0.603, 0.204, 0.101, 0.106, 1.342, 0.102],
+                    [0.202, 0.304, 0.506, 0.311, 0.102, 1.342]]
+
+        self._C =   [[0.05, 0, 0, 0, 0, 0],
+                    [0, 0.03, 0, 0, 0, 0],
+                    [0, 0, 0.02, 0, 0, 0],
+                    [0, 0, 0, 0.04, 0, 0],
+                    [0, 0, 0, 0, 0.06, 0],
+                    [0, 0, 0, 0, 0, 0.07]]
+
+        self._k = var
+        self._eps = eps
+        self._A = Matrix.sum(self._B, Matrix.mulFloat(self._C, self._k))
+
+    @abstractmethod
+    def find(self) -> (float, List, int, List):
+        """
+        Counts maximum absolute eigenvalue and eigenvector
+
+        Returns:
+
+            float - max absolute eigenvalue
+            list - eigenvector for this eigenvalue 
+            int - iterations count
+            lsit - initial approximation vector
+        """
+        pass
+
+        
+
+class ItStepMethod(Eigen):
+
+    def find(self) -> (float, List, int, List):
+
+        delta = float("inf")
+        startVector = [random.randrange(1,1000)/1000 for _ in self._A]
+
+        y0 = Vector.normalize(startVector)
+        
+        Lambda0 = [random.randrange(0,10)/10 for _ in self._A]
+        iterations = 0
+
+        while (delta > self._eps):
+            y = Matrix.mulVector(self._A,y0)
+
+            Lambda = [el1/el2 for el1,el2 in zip(y,y0)]
+            delta = abs(max(Vector.sub(Lambda0,Lambda)))
+            y0 = Vector.normalize(y)
+            Lambda0 = Lambda
+            iterations+=1
+
+        return sum(Lambda)/len(Lambda), y0, iterations, startVector
+        
+
+class ScalMulMethod(Eigen):
+
+    def find(self) -> (float, List, int, List):
+
+        delta = float("inf")
+        startVector = [random.randrange(1,1000)/1000 for _ in self._A]
+
+        y0 = Vector.normalize(startVector)
+        
+        Lambda0 = random.randrange(1,1000)/1000
+        iterations = 0
+
+        while (delta > self._eps):
+            y = Matrix.mulVector(self._A,y0)
+
+            Lambda = sum([el1/el2 for el1,el2 in zip(y,y0)]) / sum([el1/el2 for el1,el2 in zip(y0,y0)])
+            delta = abs(Lambda - Lambda0)
+            y0 = Vector.normalize(y)
+            Lambda0 = Lambda
+            iterations+=1
+
+        return Lambda, y0, iterations, startVector
+        
+
+            
+
+
+
+                
