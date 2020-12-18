@@ -14,7 +14,7 @@ engine = pt.init()
 
 def reg_na_progu():
     
-    brows = webdriver.Chrome()
+    brows = webdriver.Android()
     brows.implicitly_wait(5)
     brows.get("https://edufpmi.bsu.by/login/index.php")
     brows.find_element_by_css_selector("#username").send_keys("fpm.zhirkeviAY")

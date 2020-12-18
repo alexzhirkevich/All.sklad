@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
                 client.connect();
             } catch (Exception e) {
-                new AlertActivity(Client.sConnectionFailed).show(getSupportFragmentManager(), "Error");
+                new AlertActivity(e.getMessage()).show(getSupportFragmentManager(), "Error");
             }
             if (client != null &&
                     client.isConnected())

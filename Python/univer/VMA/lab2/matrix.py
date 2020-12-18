@@ -45,6 +45,10 @@ class Vector:
         else:
             print(None)
 
+    @staticmethod
+    def scalMul(a,b):
+        return sum([x*y for x,y in zip(a,b)])
+
 class Matrix:
    
     #метод гаусса с выбором главного эл-та по столбцу
@@ -346,12 +350,12 @@ class Relaxation(Iterative):
 class Eigen(ABC):
 
     def __init__(self, var:int) -> None:
-        B =   [[1.342, 0.432, 0.599, 0.202, 0.603, 0.202],
-                    [0.432, 1.342, 0.256, 0.599, 0.204, 0.304],
-                    [0.599, 0.256, 1.342, 0.532, 0.101, 0.506],
-                    [0.202, 0.599, 0.532, 1.342, 0.106, 0.311],
+        B =   [[1.342, 0.432, -0.599, 0.202, 0.603, -0.202],
+                    [0.432, 1.342, 0.256, -0.599, 0.204, 0.304],
+                    [-0.599, 0.256, 1.342, 0.532, 0.101, 0.506],
+                    [0.202, -0.599, 0.532, 1.342, 0.106, -0.311],
                     [0.603, 0.204, 0.101, 0.106, 1.342, 0.102],
-                    [0.202, 0.304, 0.506, 0.311, 0.102, 1.342]]
+                    [-0.202, 0.304, 0.506, -0.311, 0.102, 1.342]]
 
         C =   [[0.05, 0, 0, 0, 0, 0],
                     [0, 0.03, 0, 0, 0, 0],
@@ -386,7 +390,7 @@ class ItPowMethod(Eigen):
     def find(self,eps:float) -> (float, List, int, List):
 
         delta = float("inf")
-        startVector = [random.randrange(1,1000)/1000 for _ in self._A]
+        startVector = [1,1,1,1,1,1]
 
         y0 = Vector.normalize(startVector)
         Lambda0 = [random.randrange(0,10)/10 for _ in self._A]
@@ -410,7 +414,7 @@ class ScalMulMethod(Eigen):
     def find(self,eps:float) -> (float, List, int, List):
 
         delta = float("inf")
-        startVector = [random.randrange(1,1000)/1000 for _ in self._A]
+        startVector = [1,1,1,1,1,1]
 
         y0 = Vector.normalize(startVector)
         Lambda0 = random.randrange(1,1000)/1000
@@ -426,6 +430,31 @@ class ScalMulMethod(Eigen):
             iterations+=1
 
         return Lambda, y0, iterations, startVector
+        
+# class ScalMulMethod(Eigen):
+
+#     def find(self,eps:float) -> (float, List, int, List):
+
+#         delta = float("inf")
+#         startVector = [1,1,1]
+
+#         y0 = list(startVector)
+#         Lambda0 = 1
+#         iterations = 1
+
+#         while (delta > eps):
+#             y = Matrix.mulVector(self._A,y0)
+#             print("y = " + str(iterations)+ "   " + str(y))
+#             Lambda = (sum([el1*el2 for el1,el2 in zip(y,y0)]) /
+#                 sum([el1*el2 for el1,el2 in zip(y0,y0)]))
+#             print("l = " + str(iterations) +"   "+ str(Lambda))
+#             delta = abs(Lambda - Lambda0)
+#             print("delta = " + str(iterations) +"   " +str(delta))
+#             y0 =list(y)
+#             Lambda0 = Lambda
+#             iterations+=1
+
+#         return Lambda, y0, iterations, startVector
         
 
             

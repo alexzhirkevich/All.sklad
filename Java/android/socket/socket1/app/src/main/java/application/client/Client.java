@@ -47,8 +47,8 @@ public class Client extends Thread {
 		if (clientSocket == null)
 			throw new SocketTimeoutException("Host is unavailable");
 		clientSocket.setSoTimeout(5000);
-		oos = new ObjectOutputStream(this.clientSocket.getOutputStream());
 		ois = new ObjectInputStream(this.clientSocket.getInputStream());
+		oos = new ObjectOutputStream(this.clientSocket.getOutputStream());
 	}
 
 	public MessageConnectResult connect() throws MessageException, IOException, ClassNotFoundException{

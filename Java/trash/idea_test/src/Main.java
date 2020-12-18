@@ -1,140 +1,97 @@
+// Класс представления различного внешнего вида кнопок JButton
+
+import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.util.StringTokenizer;
-import java.util.Vector;
 
-public class Main {
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-	static String sHex = "0123456789ABCDEF";
-	static int linenum = 1;
-	static String fInt = "integer10.txt";
-	static String fHex = "integer16.txt";
-	static String fDouble = "double.txt";
-	static String fE = "doubleE.txt";
-	static String fText = "text.txt";
 
-	static HashMap<Integer,Double> doubles = new HashMap<>();
-	static HashMap<Integer,Double> exp = new HashMap<>();
-	static HashMap<Integer,Integer> ints = new HashMap<>();
-	static HashMap<Integer,Integer> hex = new HashMap<>();
-	static HashMap<Integer,String> strings = new HashMap<>();
+public class Main extends JFrame
+{
+	private static final long serialVersionUID = 1L;
+	public Main() throws IOException {
+		super("Интерфейсы кнопок");
+		setDefaultCloseOperation( EXIT_ON_CLOSE );
+		// Устанавливаем последовательное расположение
+		Container container = getContentPane();
+		container.setLayout(new FlowLayout( FlowLayout.LEFT, 10, 10));
+		// Простая кнопка
+		JButton button = new JButton("Обычная кнопка");
+		// Подключение слушателей событий
+		button.addActionListener(new ListenerAction());
+		button.addChangeListener(new ListenerChange());
+		// присоединение слушателя прямо на месте
+		button.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				System.out.println("Это событие мы не увидим");
+			}});
+		container.add(button);
+		// Кнопка со значками на все случаи жизни
+		button = new JButton();
+		button.setIcon        (new ImageIcon("images/copy.png"));
+		button.setRolloverIcon(new ImageIcon("images/cut.png" ));
+		button.setPressedIcon (new ImageIcon("images/open.png"));
+		button.setDisabledIcon(new ImageIcon("images/save.png"));
+		// Убираем все ненужные рамки и закраску
+		button.setBorderPainted(false);
+		button.setFocusPainted(false);
+		button.setContentAreaFilled(false);
+		container.add(button);
+		// Кнопка с описанием интерфейса в виде HTML-текста
+		button = new JButton("<html><h2><font color=\"yellow\">Синяя кнопка");
+		JFrame j =new JFrame();
+		j.setBounds(1,1,200,200);
+		//byte[] data = fis.readAllBytes();
+		Image image = ImageIO.read(new File("img.png"));
+		j.setIconImage(image);
+		j.s
 
-	public static void solve(String[] args){
-		Scanner sc = new Scanner(System.in);
-		int line = 0;
-		while (sc.hasNextLine()) {
-			String s = "{}";
-			line++;
-			String[] tokens = sc.nextLine().split("\t\n ");
-			for (String word : tokens) {
-				try {
-					Double value = Double.parseDouble(word);
-					if (!word.contains(".") && !word.contains("e") && !word.contains("E"))
-						throw new NumberFormatException();
-					if (word.contains("e") || word.contains("E"))
-						exp.put(line, value);
-					else
-						doubles.put(line, value);
-				} catch (NumberFormatException e) {
-					try {
-						Integer value = Integer.parseInt(word);
-						ints.put(line, value);
-					} catch (NumberFormatException ee) {
-						try {
-							if (word.length() > 2) {
-								Integer value = Integer.parseInt(word.substring(2), 16);
-								hex.put(line, Integer.parseInt(word.substring(2), 16));
-							} else
-								throw new NumberFormatException();
-						} catch (NumberFormatException eee) {
-							strings.put(line, word);
-						}
-					}
-				}
-			}
-			System.out.print("1: ");
-			for (Integer d : ints.values())
-				System.out.print(d + " ");
-			System.out.println();
-			System.out.print("2: ");
-			for (Integer d : hex.values())
-				System.out.printf("%X ", d);
-			System.out.println();
-
-			System.out.print("3: ");
-			for (Double d : doubles.values())
-				System.out.print(d + " ");
-			System.out.println();
-
-			System.out.print("4: ");
-			for (Double d : exp.values())
-				System.out.printf("%E ", d);
-			System.out.println();
-			System.out.print("5: ");
-			for (String d : strings.values())
-				System.out.print(d + " ");
-			System.out.println();
+		// button.setOpaque(true);
+		button.setBackground(Color.blue);
+		container.add(button);
+		// Изменение выравнивания текста и изображения
+		button = new JButton("Изменение выравнивания",
+				new ImageIcon("images/exit.png"));
+		button.setMargin                (new Insets(10, 10, 10, 10));
+		button.setVerticalAlignment     (SwingConstants.TOP   );
+		button.setHorizontalAlignment   (SwingConstants.RIGHT );
+		button.setHorizontalTextPosition(SwingConstants.LEFT  );
+		button.setVerticalTextPosition  (SwingConstants.BOTTOM);
+		button.setIconTextGap(10);
+		// сделаем кнопку большой, чтобы увидеть выравнивание
+		button.setPreferredSize(new Dimension(300, 100));
+		container.add(button);
+		// отключенная кнопка
+		button = new JButton("Выключено");
+		button.setEnabled(false);
+		container.add(button);
+		// выводим окно на экран
+		setSize(400, 350);
+		setVisible(true);
+	}
+	class ListenerAction implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("Нажатие кнопки! От - "+
+					e.getActionCommand() + "\n");
 		}
 	}
-
-	public static String convert(String value, String fromEncoding, String toEncoding) throws UnsupportedEncodingException {
-		return new String(value.getBytes(fromEncoding), toEncoding);
-	}
-
-	public static String charset(String value, String charsets[]) throws UnsupportedEncodingException {
-		String probe = StandardCharsets.UTF_8.name();
-		for(String c : charsets) {
-			Charset charset = Charset.forName(c);
-			if(charset != null) {
-				if(value.equals(convert(convert(value, charset.name(), probe), probe, charset.name()))) {
-					return c;
-				}
-			}
+	class ListenerChange implements ChangeListener {
+		public void stateChanged(ChangeEvent e) {
+			// Источник события
+			Object src = e.getSource();
+			System.out.println("Cообщение о смене состояния объекта : "
+					+ src.getClass());
 		}
-		return StandardCharsets.UTF_8.name();
 	}
-
-	public static void main(String[] args) throws UnsupportedEncodingException {
-		String[] cs = {
-				"UTF-8", "windows-1251", "Cp866"
-		};
-		Scanner sc = new Scanner(System.in);
-		sc.nextLine();
-		System.out.print(charset(sc.nextLine(),cs));
-	}
-
-	public static void solve() throws IOException {
-		try (Scanner sc = new Scanner(System.in)) {
-			while (sc.hasNextLine()){
-				String[] words = sc.nextLine().split(" \n\r");
-				for (String word : words){
-					try {
-						Double d = Double.parseDouble(word);
-						PrintWriter pw;
-						if (word.indexOf('e')!=-1)
-							pw = new PrintWriter(new FileWriter(fE));
-						else
-							pw= new PrintWriter(fDouble);
-						pw.write(linenum);
-						pw.write(": "+ d);
-						continue;
-					}
-					catch (NumberFormatException e){ }
-					try {
-						Integer i = Integer.parseInt(word);
-						PrintWriter pw = new PrintWriter(new FileWriter(fDouble));
-						pw.write(linenum);
-						pw.write(": "+ i);
-						continue;
-					}
-					catch (NumberFormatException e){ }
-				}
-			}
-		}
+	public static void main(String[] args) throws IOException {
+		new Main();
 	}
 }
